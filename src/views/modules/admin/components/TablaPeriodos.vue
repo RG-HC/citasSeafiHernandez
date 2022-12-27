@@ -123,13 +123,13 @@ const mostrarModalP = async (idPeriodo, index)=>{
 }
 
 //eliminar periodo
-const eliminarPeriodo = async (idPeriodo ,fecha) => {
-  const confirmado = await NotificacionesRecepcion.ConfirmacionEditar(fecha, "Eliminar")
+const eliminarPeriodo = async (idPeriodo, fechaInicio, fechaFin) => {
+  const confirmado = await NotificacionesRecepcion.ConfirmacionEliminar(fechaInicio + " - "+ fechaFin, state.nombrePeriodo)
   if (confirmado.isConfirmed) {
     try {
       const resp = await PeriodosService.eliminarPeriodo(idPeriodo)
       if (resp) {
-        await NotificacionesModal.PantallaExito('Evento Eliminado con Éxito')
+        await NotificacionesModal.PantallaExito('Período Eliminado con Éxito')
       }
     } catch (error) {
       await NotificacionError.Agendar(error)
@@ -144,7 +144,7 @@ const AgregarPeriodo = async (idPeriodo) => {
     await modalPeriodo.value.hide()
   if (idPeriodo !== '') {
 
-    const resp = await NotificacionesRecepcion.ConfirmacionEditar(state.fecha, 'Modificar')
+    const resp = await NotificacionesRecepcion.ConfirmacionEditar(state.fechaInicio + " - " + state.fechaFin, 'Modificar') // revisar las notificaciones
     if (resp.isConfirmed)
       try {
         PantallaCarga.mostrar()
@@ -164,7 +164,7 @@ const AgregarPeriodo = async (idPeriodo) => {
 
    try {
      //const vld = await PeriodosService.ObtenerListaPeriodos(idPeriodo, state.nombrePeriodo, UtilsDate.toDayMonthYear(state.fechaInicio), UtilsDate.toDayMonthYear(state.fechaFin), state.activo)
-     const date = await NotificacionesRecepcion.ValidarDiaInhabil(state.fecha, 'Agregar')
+     const date = await NotificacionesRecepcion.ValidarDiaInhabil(state.fechaInicio + " - " + state.fechaFin, 'Agregar')
 
      if (date.isConfirmed) {
        try {
