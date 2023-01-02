@@ -436,7 +436,7 @@ onMounted(() => {
     <template #footer>
         <div class="d-flex align-items-center col-12">
           <div class="col-6 px-2">
-            <button class="btn btn-seafi-aqua w-100" type="button" ref="enviando" :disabled="v.$invalid" @click="AgregarPeriodo(state.idPeriodo )">Aceptar</button>
+            <button class="btn btn-seafi-aqua w-100" type="button" ref="enviando" :disabled="v$.$invalid" @click="AgregarPeriodo(state.idPeriodo )">Aceptar</button>
           </div>
           <div class="col-6 px-2">
             <a class="btn btn-soft-seafi-gray w-100" data-bs-dismiss="modal">Cancelar</a>
