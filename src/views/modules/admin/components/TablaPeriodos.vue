@@ -101,14 +101,17 @@ watch(paginaActual, (newPage) => {
 
 //mostrar modal del periodo
 const mostrarModalP = async (idPeriodo, index)=>{
-  let inputFecha = document.querySelector("#inputFecha")
+  let inputFechaInicio = document.querySelector("#inputFechaInicio ")
+  let inputFechaFin = document.querySelector("#inputFechaFin ")
   await limpiarModal()
   if (!idPeriodo){
     isNew.value = true
-    inputFecha.disabled = false;
+    inputFechaInicio.disabled = false;
+    inputFechaFin.disabled = false;
   }else{
     isNew.value = false
-    inputFecha.disabled = true
+    inputFechaInicio.disabled = true
+    inputFechaFin.disabled = true
     const dato = await diasPeriodo.value[index]
 
     state.idPeriodo = dato.idPeriodo
@@ -270,6 +273,7 @@ onMounted(() => {
         </tr>
         </thead>
         <tbody>
+          <!-- Inicio donde se muestran los datos -->
           <tr v-for="(diasPeriodo, index) in diasPeriodo">
             <th scope="row">{{index + 1}}</th>
             <td class="fw-semibold">{{diasPeriodo.nombrePeriodo}}</td>
@@ -319,7 +323,7 @@ onMounted(() => {
         <div class="text-center">
           <h5 class="mt-2">No hay registros</h5>
           <p class="text-muted mb-0">
-            Nose encontraron resultados para mostrar
+            No se encontraron resultados para mostrar
           </p>
         </div>
       </div>
@@ -373,7 +377,6 @@ onMounted(() => {
         type="text"
         class="form-control"
         v-model.trim="v$.nombrePeriodo.$model"
-        @input="this.v$.nombrePeriodo.$touch()"
         :class="{'is-invalid': v$.nombrePeriodo.$error,}" id="nombreSistema"
         placeholder="Ingresa un nombre para el período"
         >
@@ -389,7 +392,7 @@ onMounted(() => {
               v-model="v$.fechaInicio.$model"
               :config="humanfriendlyConfig"
               class="form-control flatpickr-input"
-              id="inputFecha"
+              id="inputFechaInicio"
               :class="{'is-invalid': v$.fechaInicio.$error},!isNew ? 'text-muted' :''"
               :style="!isNew ? 'cursor: not-allowed': ''"
           ></flatPickr>
@@ -405,7 +408,7 @@ onMounted(() => {
               v-model="v$.fechaFin.$model"
               :config="humanfriendlyConfig"
               class="form-control flatpickr-input"
-              id="inputFecha"
+              id="inputFechaFin"
               :class="{'is-invalid': v$.fechaFin.$error},!isNew ? 'text-muted' :''"
               :style="!isNew ? 'cursor: not-allowed': ''"
           ></flatPickr>
@@ -433,7 +436,7 @@ onMounted(() => {
     <template #footer>
         <div class="d-flex align-items-center col-12">
           <div class="col-6 px-2">
-            <a class="btn btn-seafi-aqua w-100" ref="enviando" @click="AgregarPeriodo(state.idPeriodo )">Aceptar</a>
+            <button class="btn btn-seafi-aqua w-100" type="button" ref="enviando" :disabled="v.$invalid" @click="AgregarPeriodo(state.idPeriodo )">Aceptar</button>
           </div>
           <div class="col-6 px-2">
             <a class="btn btn-soft-seafi-gray w-100" data-bs-dismiss="modal">Cancelar</a>
